@@ -57,8 +57,9 @@ class LoginActivity : AppCompatActivity() {
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
-//        printHashKey()
+        printHashKey()
         //hVk24c/qdoa1+/sGUaGDBSwlvvc=
+        //oMAqMtLBI9zPOjo2T7+wFnugHyA=
         callbackManager = CallbackManager.Factory.create()
     }
 
