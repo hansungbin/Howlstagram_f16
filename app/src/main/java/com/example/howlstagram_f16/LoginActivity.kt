@@ -35,8 +35,10 @@ class LoginActivity : AppCompatActivity() {
     var googleSignInClient : GoogleSignInClient? = null
     var GOOGLE_LOGIN_CODE = 9001
     var callbackManager : CallbackManager? = null
+    var file = "LoginActivity.kt -"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("ERROR",file +"onCreate 001")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         auth = FirebaseAuth.getInstance()
@@ -49,18 +51,28 @@ class LoginActivity : AppCompatActivity() {
         }
         facebook_login_button.setOnClickListener{
             //First step
+            Log.d("ERROR",file +" facebook_login_button.setOnClickListener")
             facebookLogin()
+            Log.d("ERROR",file +"facebookLogin finish 001")
+
         }
 
+        Log.d("ERROR",file +"gso 001")
         var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("697336115550-5c2o53v0j00l10j3ebld7pd4vkpn6a9v.apps.googleusercontent.com")
             .requestEmail()
             .build()
+        Log.d("ERROR",file +"gso 002")
         googleSignInClient = GoogleSignIn.getClient(this, gso)
-        printHashKey()
-        //hVk24c/qdoa1+/sGUaGDBSwlvvc=
-        //oMAqMtLBI9zPOjo2T7+wFnugHyA=
+
+        Log.d("ERROR",file +"gso 003")
+//        printHashKey()
+//        hVk24c/qdoa1+/sGUaGDBSwlvvc=
+//        oMAqMtLBI9zPOjo2T7+wFnugHyA=
+
+        Log.d("ERROR",file +"gso 004")
         callbackManager = CallbackManager.Factory.create()
+        Log.d("ERROR",file +"gso 005")
     }
 
     fun printHashKey() {
@@ -85,32 +97,38 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun facebookLogin(){
+        Log.d("ERROR",file +"facebookLogin 01")
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"))
+        Log.d("ERROR",file +"facebookLogin 02")
 
-        LoginManager.getInstance()
+        //계정이 존재하지 않으면 들어가지지 않음음
+       LoginManager.getInstance()
             .registerCallback(callbackManager, object  : FacebookCallback<LoginResult>{
                 override fun onSuccess(result: LoginResult?) {
                     //Second step
+                    Log.d("ERROR",file +"onSuccess 01")
                     handleFacebookAccessToken(result?.accessToken)
                 }
 
                 override fun onCancel() {
-
+                    Log.d("ERROR",file +"onCancel 01")
+                    Log.e("TAG", "LoginActivity_ fun onCancel")
                 }
 
                 override fun onError(error: FacebookException?) {
-
+                    Log.d("ERROR",file +"onError 01")
+                    Log.e("TAG", "LoginActivity_ fun onError")
                 }
 
             })
     }
 
     fun handleFacebookAccessToken(token : AccessToken?){
+        Log.d("ERROR",file +"handleFacebookAccessToken 01")
         var credential = FacebookAuthProvider.getCredential(token?.token!!)
         auth?.signInWithCredential(credential)
             ?.addOnCompleteListener { task ->
                 if(task.isSuccessful){
-
                     //Third step
                     //Login
                     moveMainPage(task.result?.user)
@@ -122,7 +140,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.d("ERROR",file +"onActivityResult 01")
         super.onActivityResult(requestCode, resultCode, data)
+        Log.d("ERROR",file +"onActivityResult 01")
+        Log.d("ERROR",file +"requestCode = $requestCode")
+        Log.d("ERROR",file +"resultCode = $resultCode")
+        Log.d("ERROR",file +"data = $data")
         callbackManager?.onActivityResult(requestCode,resultCode, data)
         if(requestCode == GOOGLE_LOGIN_CODE){
             var result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
@@ -149,19 +172,23 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun signinAndSignup(){
+        Log.d("ERROR",file +"signinAndSignup 01")
         auth?.createUserWithEmailAndPassword(
             email_edittext.text.toString(),
             password_edittext.text.toString()
         )?.addOnCompleteListener { task ->
                 if (task.isSuccessful){
                     //Creating a user account
+                    Log.d("ERROR",file +"signinAndSignup 02")
                     moveMainPage(task.result?.user)
 
                 }else if(task.exception?.message.isNullOrEmpty()){
+                    Log.d("ERROR",file +"signinAndSignup 03")
                     //Show the error message
                     Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
 
                 }else {
+                    Log.d("ERROR",file +"signinAndSignup 04")
                     //Login if you have account
                     signinEmail()
                 }
@@ -185,6 +212,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun moveMainPage(user: FirebaseUser?){
+        Log.d("ERROR",file +"moveMainPage ")
         if (user != null){
             startActivity(Intent(this, MainActivity::class.java))
         }
