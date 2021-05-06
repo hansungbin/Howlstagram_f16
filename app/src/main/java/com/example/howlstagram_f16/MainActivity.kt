@@ -1,15 +1,17 @@
 package com.example.howlstagram_f16
 
+import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import com.example.howlstagram_f16.navigation.AlarmFragment
-import com.example.howlstagram_f16.navigation.DetailViewFragment
-import com.example.howlstagram_f16.navigation.GridFragment
-import com.example.howlstagram_f16.navigation.UserFragment
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.example.howlstagram_f16.navigation.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSelectedListener{
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
@@ -28,6 +30,9 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
             }
             R.id.action_add_photo -> {
 
+                if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    startActivity(Intent(this, AddPhotoActivity::class.java))
+                }
                 return true
             }
             R.id.action_favorite_alarm -> {
@@ -50,6 +55,7 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         bottom_navigation.setOnNavigationItemSelectedListener(this)
+        ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
     }
 
 }
