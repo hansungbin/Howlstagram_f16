@@ -75,6 +75,11 @@ class LoginActivity : AppCompatActivity() {
         Log.d("ERROR",file +"gso 005")
     }
 
+    override fun onStart(){
+        super.onStart()
+        moveMainPage(auth?.currentUser)
+    }
+
     fun printHashKey() {
         try {
             val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
@@ -215,6 +220,8 @@ class LoginActivity : AppCompatActivity() {
         Log.d("ERROR",file +"moveMainPage ")
         if (user != null){
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
+
         }
     }
 }
