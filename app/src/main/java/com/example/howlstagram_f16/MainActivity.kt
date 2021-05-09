@@ -10,6 +10,7 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.howlstagram_f16.navigation.*
+import com.example.howlstagram_f16.navigation.util.FcmPush
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -94,6 +95,11 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
         bottom_navigation.selectedItemId = R.id.action_home
         registerPushToken()
     }
+
+//    override fun onStop() {
+//        super.onStop()
+//        FcmPush.instance.sendMessage("d2bsNfGweca1Nt6maEjlV8x1qeL2","hi", "bye")
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
