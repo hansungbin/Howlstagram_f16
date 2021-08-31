@@ -10,17 +10,13 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.howlstagram_f16.navigation.*
-import com.example.howlstagram_f16.navigation.util.FcmPush
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSelectedListener{
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
@@ -46,15 +42,15 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
                 return true
             }
             R.id.action_favorite_alarm -> {
-                var alarmFragment = AlarmFragment()
+                val alarmFragment = AlarmFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, alarmFragment)
                     .commit()
                 return true
             }
             R.id.action_account -> {
-                var userFragment = UserFragment()
-                var bundle = Bundle()
-                var uid = FirebaseAuth.getInstance().currentUser?.uid
+                val userFragment = UserFragment()
+                val bundle = Bundle()
+                val uid = FirebaseAuth.getInstance().currentUser?.uid
                 bundle.putString("destinationUid", uid)
                 userFragment.arguments = bundle
 
@@ -72,18 +68,18 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
 
     }
 
-    fun registerPushToken(){
-        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
-            task ->
-            val token = task.result?.token
-            var uid = FirebaseAuth.getInstance().currentUser?.uid
-            val map = mutableMapOf<String, Any>()
-            map["pushToken"] = token!!
-
-            FirebaseFirestore.getInstance().collection("pushtokens").document(uid!!).set(map)
-        }
-
-    }
+//    fun registerPushToken(){
+//        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
+//            task ->
+//            val token = task.result?.token
+//            var uid = FirebaseAuth.getInstance().currentUser?.uid
+//            val map = mutableMapOf<String, Any>()
+//            map["pushToken"] = token!!
+//
+//            FirebaseFirestore.getInstance().collection("pushtokens").document(uid!!).set(map)
+//        }
+//
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +89,7 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
 
         //Set default screen
         bottom_navigation.selectedItemId = R.id.action_home
-        registerPushToken()
+//        registerPushToken()
     }
 
 //    override fun onStop() {
