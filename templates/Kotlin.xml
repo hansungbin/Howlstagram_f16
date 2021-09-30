@@ -1,5 +1,5 @@
 <templateSet group="Kotlin">
-  <template name="tag" value="val logTag = &quot;로그 $filename$&quot;" toReformat="false" toShortenFQNames="true">
+  <template name="tag" value="val logTag = &quot;로그 $filename$&quot;" description="" toReformat="false" toShortenFQNames="true">
     <variable name="filename" expression="fileNameWithoutExtension()" defaultValue="" alwaysStopAt="true" />
     <context>
       <option name="OTHER" value="true" />
